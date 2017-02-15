@@ -23,13 +23,12 @@ defmodule HelloNeopixel.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {HelloNeopixel, []},
-     applications: [:logger, :nerves_neopixel, :nerves_interim_wifi]]
+     applications: [:logger, :nerves_neopixel]]
   end
 
   def deps do
     [{:nerves, "~> 0.4.0"},
-     {:nerves_neopixel, "~> 0.3.0"},
-     {:nerves_interim_wifi, "~> 0.1.0"}]
+     {:nerves_neopixel, "~> 0.3.0"}]
   end
 
   def system(target) do

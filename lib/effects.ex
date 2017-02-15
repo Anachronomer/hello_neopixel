@@ -17,6 +17,10 @@ defmodule HelloNeopixel.Effects do
   def off do {0, 0, 0} end
   def white do {255, 255, 255} end
 
+  def solid(pid, color, brightness) do
+    GenServer.call(pid, {:all, {color, brightness}})
+  end
+
   def blink(pid, color_1, color_2, brightness_1, brightness_2, delay) do
     GenServer.cast(pid, {:blink, {color_1, color_2, brightness_1, brightness_2, delay}})
   end
@@ -31,6 +35,15 @@ defmodule HelloNeopixel.Effects do
 
   def init(num_px) do
     {:ok, %{anim_pid: nil, num_px: num_px}}
+  end
+
+  def handle_call(:all, {color, brightness}, state) do
+    if state.anim_pid do
+      Process.exit(state.anim_pid, :kill)
+    end
+
+    all(state.num_px, color, brightness)
+    {:ok, %{anim_pid: nil, num_px: state.num_px}}
   end
 
   def handle_cast({:blink, {color_1, color_2, brightness_1, brightness_2, delay}}, state) do
