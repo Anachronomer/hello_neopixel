@@ -37,7 +37,7 @@ defmodule HelloNeopixel.Effects do
     {:ok, %{anim_pid: nil, num_px: num_px}}
   end
 
-  def handle_call(:all, {color, brightness}, state) do
+  def handle_call({:all, {color, brightness}}, state) do
     if state.anim_pid do
       Process.exit(state.anim_pid, :kill)
     end
